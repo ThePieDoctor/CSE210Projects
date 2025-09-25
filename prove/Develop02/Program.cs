@@ -7,7 +7,7 @@ class Program
         PromptGenerator promptGenerator = new PromptGenerator();
         bool isRunning = true;
 
-        Console.WriteLine("Welcome to the Journal Program! ✍️");
+        Console.WriteLine("Welcome to the Journal Program!");
 
         while (isRunning)
         {
