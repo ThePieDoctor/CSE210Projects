@@ -14,14 +14,14 @@ namespace LibraryManagementSystem.Models
         public string Title { get; set; }
         public string Author { get; set; }
         public BookGenre Genre { get; set; }
-        private bool _isAvailable;
+        public bool Available { get; set; }
 
-        public Book() : base("default-book-id") 
+        public Book() : base("default-book-id")
         {
             Title = "Unknown";
             Author = "Unknown";
             Genre = BookGenre.Fiction;
-            _isAvailable = false;
+            Available = false;
         }
 
         public Book(string itemID, string title, string author, BookGenre genre) : base(itemID)
@@ -29,22 +29,22 @@ namespace LibraryManagementSystem.Models
             Title = title;
             Author = author;
             Genre = genre;
-            _isAvailable = true;
+            Available = true;
         }
 
         public bool IsAvailable()
         {
-            return _isAvailable;
+            return Available;
         }
 
         public void CheckOut()
         {
-            _isAvailable = false;
+            Available = false;
         }
 
         public void Return()
         {
-            _isAvailable = true;
+            Available = true;
         }
 
         public override decimal CalculateLateFeeRate()
@@ -55,7 +55,7 @@ namespace LibraryManagementSystem.Models
 
         public string GetDetailsString()
         {
-            string availability = _isAvailable ? "Available" : "Checked Out";
+            string availability = Available ? "Available" : "Checked Out";
             return $"[{ItemID}] '{Title}' by {Author} ({Genre}) - {availability}";
         }
     }

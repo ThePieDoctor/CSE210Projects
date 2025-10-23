@@ -34,6 +34,12 @@ namespace LibraryManagementSystem.UI
                         DoViewAccountStatus();
                         break;
                     case "5":
+                        DoAddPatron();
+                        break;
+                    case "6":
+                        DoAddBook();
+                        break;
+                    case "7":
                         running = false;
                         break;
                     default:
@@ -60,7 +66,9 @@ namespace LibraryManagementSystem.UI
             Console.WriteLine("2. Check Out Book");
             Console.WriteLine("3. Return Book");
             Console.WriteLine("4. View My Account Status");
-            Console.WriteLine("5. Quit");
+            Console.WriteLine("5. Add Patron");
+            Console.WriteLine("6. Add Book");
+            Console.WriteLine("7. Quit");
         }
 
         private string GetInput(string prompt)
@@ -142,6 +150,50 @@ namespace LibraryManagementSystem.UI
                     var book = _library.GetCatalog().Find(b => b.ItemID == bID);
                     Console.WriteLine($"  - {book?.Title ?? "Unknown Book"} (ID: {bID})");
                 }
+            }
+        }
+
+        private void DoAddPatron()
+        {
+            Console.WriteLine("\n--- Add New Patron ---");
+            string name = GetInput("Enter the patron's name: ");
+            string id = GetInput("Enter a unique patron ID (e.g., p123): ");
+
+            bool added = _library.AddPatron(name, id);
+            if (added)
+            {
+                Console.WriteLine($"Patron '{name}' (ID: {id}) added successfully.");
+            }
+            else
+            {
+                Console.WriteLine("A patron with that ID already exists. Try a different ID.");
+            }
+        }
+
+        private void DoAddBook()
+        {
+            Console.WriteLine("\n--- Add New Book ---");
+            string id = GetInput("Enter the Book ID (e.g., b010): ");
+            string title = GetInput("Enter the book title: ");
+            string author = GetInput("Enter the author: ");
+
+            Console.WriteLine("Genres: 0=Fiction, 1=NonFiction, 2=SciFi, 3=Fantasy, 4=Mystery");
+            string genreInput = GetInput("Enter genre number: ");
+            if (!int.TryParse(genreInput, out int genreVal) || genreVal < 0 || genreVal > 4)
+            {
+                Console.WriteLine("Invalid genre. Book not added.");
+                return;
+            }
+
+            var genre = (BookGenre)genreVal;
+            bool added = _library.AddBook(id, title, author, genre);
+            if (added)
+            {
+                Console.WriteLine($"Book '{title}' (ID: {id}) added successfully.");
+            }
+            else
+            {
+                Console.WriteLine("A book with that ID already exists. Try a different ID.");
             }
         }
     }

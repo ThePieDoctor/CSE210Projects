@@ -5,9 +5,9 @@ namespace LibraryManagementSystem.Core
 
     public class Library
     {
-        private List<Book> _catalog;
-        private List<Patron> _patrons;
-        private List<Loan> _loans;
+    private List<Book> _catalog = new List<Book>();
+    private List<Patron> _patrons = new List<Patron>();
+    private List<Loan> _loans = new List<Loan>();
 
         private readonly IDataService _dataService;
         
@@ -19,6 +19,28 @@ namespace LibraryManagementSystem.Core
             _dataService = dataService;
             _fineCalculator = new Fine();
             LoadData();
+        }
+
+        public bool AddPatron(string name, string id)
+        {
+            if (_patrons.Find(p => p.GetID() == id) != null)
+            {
+                return false;
+            }
+
+            _patrons.Add(new Patron(name, id));
+            return true;
+        }
+
+        public bool AddBook(string itemID, string title, string author, BookGenre genre)
+        {
+            if (_catalog.Find(b => b.ItemID == itemID) != null)
+            {
+                return false;
+            }
+
+            _catalog.Add(new Book(itemID, title, author, genre));
+            return true;
         }
 
         public void LoadData()
