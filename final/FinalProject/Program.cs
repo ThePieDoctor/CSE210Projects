@@ -1,9 +1,19 @@
-using System;
+using LibraryManagementSystem.Services;
+using LibraryManagementSystem.UI;
+using LibraryManagementSystem.Core;
 
-class Program
+public class Program
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-        Console.WriteLine("Hello FinalProject World!");
+        string dataFilePath = "library_data.json";
+
+        IDataService dataService = new FileDataService(dataFilePath);
+
+        Library library = new Library(dataService);
+
+        ConsoleUI ui = new ConsoleUI(library);
+
+        ui.StartProgram();
     }
 }
